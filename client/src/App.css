@@ -8,5 +8,24 @@
   display: flex;
   justify-content: space-around;
   width: 70%;
+  margin: 2vh auto 2vh auto;
+}
+
+.player-song-container {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
   margin: auto;
+}
+
+.track-container {
+  display: flex;
+  border: 1px solid grey;
+  margin-bottom: 1vh;
+  padding: 10px;
+  align-items: center
+}
+
+.track-container > * {
+  flex: 1
 }
