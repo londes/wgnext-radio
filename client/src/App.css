@@ -1,0 +1,12 @@
+.App {
+  text-align: center;
+  width: 82vw;
+  margin: auto;
+}
+
+.navigation-bar {
+  display: flex;
+  justify-content: space-around;
+  width: 70%;
+  margin: auto;
+}
