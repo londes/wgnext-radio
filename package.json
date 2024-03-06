@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
+  },
+  "homepage": "https://londes.github.io/wgnext-radio",
+  "scripts": {
+    "publish": "gh-pages -d client"
+  }
+}
