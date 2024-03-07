@@ -37,10 +37,6 @@ async function connecting() {
 
 app.use('/tracks', trackRoutes)
 
-app.get('/', (req, res) => {
-    res.send('hello world')
-})
-
 connecting().then(() => {
     app.listen(port, () => console.log(`🎙️🎙️🎙️ radio server running on port ${port}`))
 })

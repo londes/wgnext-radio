@@ -5,4 +5,10 @@ const controller = require('../controllers/TracksController')
 
 router.get('/', controller.getAll)
 
+router.post('/add', controller.add)
+
+router.post('/delete', controller.remove)
+
+router.post('/update', controller.update)
+
 module.exports = router
