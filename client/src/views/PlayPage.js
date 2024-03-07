@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { tracks } from '../data/tracks'
+// import { tracks } from '../data/tracks'
 
-export default function PlayPage() {
+export default function PlayPage({ tracks }) {
   return (
     <div className="player-song-container">
         {tracks.map(track => <div className='track-container'>
