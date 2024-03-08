@@ -17,10 +17,9 @@ mongoose.set('debug', true)
 
 const trackRoutes = require('./routes/trackRoutes')
 
-// we will eventually need this stuff to connect to our deployment
-// const path = require('path')
-// app.use(express.static(__dirname));
-// app.use(express.static(path.join(__dirname, '../client/build')));
+const path = require('path')
+app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 //
 // end imports, requirements
@@ -28,7 +27,8 @@ const trackRoutes = require('./routes/trackRoutes')
 
 async function connecting() {
     try {
-        await mongoose.connect('mongodb://127.0.0.1/radio')
+        // await mongoose.connect('mongodb://127.0.0.1/radio')
+        await mongoose.connect(`mongodb+srv://wilpur-radio:${process.env.MONGO_PW}@cluster0.dq7qyg1.mongodb.net/`)
         console.log(`connected to the tracks db yee`)
     } catch(e) {
         console.log(e)
@@ -37,6 +37,10 @@ async function connecting() {
 
 app.use('/tracks', trackRoutes)
 
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  });
+
 connecting().then(() => {
-    app.listen(port, () => console.log(`🎙️🎙️🎙️ radio server running on port ${port}`))
+    app.listen(port, () => console.log(`🎙️ 🎙️ 🎙️ radio server running on port ${port} 🎙️ 🎙️ 🎙️`))
 })
