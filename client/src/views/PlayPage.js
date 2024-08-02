@@ -5,16 +5,10 @@ import React from 'react'
 export default function PlayPage({ tracks }) {
   return (
     <div className="player-song-container">
-        {tracks.map(track => <div className='track-container'>
-            <div>{track.title} by {track.artist}</div>
-            <audio src={track.src} controls />
-        </div>)}
-        {/* <div className="song-container">
-            {tracks.map(track => <div>{track.title}, {track.artist}</div>)}
-        </div>
-        <div className="player-container">
-            {tracks.map(track => <audio src={track.src} controls />)}
-        </div> */}
+      {tracks.map((track, idx) => <div className='track-container' key={idx}>
+          <div>{track.title} by {track.artist}</div>
+          <audio src={track.src} controls />
+      </div>)}
     </div>
   )
 }
