@@ -32,6 +32,7 @@ async function connecting() {
         await mongoose.connect(`mongodb+srv://wilpur-radio:${process.env.MONGO_PW}@cluster0.dq7qyg1.mongodb.net/`)
         console.log(`connected to the tracks db yee`)
     } catch(e) {
+        console.log(`ERROR: could not connect to db. please ensure it's running`)
         console.log(e)
     }
 }
