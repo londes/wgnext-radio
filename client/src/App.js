@@ -9,7 +9,6 @@ import PlayPage from './views/PlayPage';
 import UploadPage from './views/UploadPage';
 import { URL } from './config'
 
-
 function App() {
 
   const [tracks, setTracks] = useState([])
