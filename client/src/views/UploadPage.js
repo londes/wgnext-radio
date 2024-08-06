@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { uploadToDropbox, getShareableData } from '../services/dropboxRequests'
+import { addSong } from '../services/trackRequests'
 
 export default function UploadPage() {
 
@@ -19,69 +21,15 @@ export default function UploadPage() {
     if (uploadFile) {
       let uploadData = await uploadToDropbox(uploadFile)
       let shareRequest = await getShareableData(uploadData)
+      console.log(shareRequest)
+      let res = await addSong({...formValues, src: shareRequest.url})
+      console.log(res)
     }
   }
 
   let handleFile = (e) => {
     e.preventDefault()
     setUploadFile(e.target.files[0])
-  }
-
-  let uploadToDropbox = async (song) => {
-    let response = await fetch ('https://content.dropboxapi.com/2/files/upload', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.REACT_APP_DROPBOX_TOKEN}`,
-        'Dropbox-API-Arg': JSON.stringify({
-          path: `/${song.name}`,
-          mode: 'add',
-          autorename: true,
-          mute: false
-        }),
-        'Content-Type': 'application/octet-stream'
-      },
-      body: song
-    })
-
-    console.log(response)
-    if (response.ok) {
-      let data = await response.json()
-      console.log('file uploaded to dropbox successfully', data)
-      return data
-    } else {
-      let errorResponse = await response.text()
-      console.error('failed to upload file to dropbox', response.status, response.statusText, errorResponse);
-    }
-  }
-
-  let getShareableData = async (song) => {
-    console.log(song)
-    let response = await fetch ('https://api.dropboxapi.com/2/sharing/create_shared_link_with_settings', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.REACT_APP_DROPBOX_TOKEN}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        path: song.path_lower,
-        settings: {
-          access: "viewer",
-          allow_download: true,
-          audience: "public",
-          requested_visibility: "public"
-        }
-      }),
-    })
-
-    console.log(response)
-    if (response.ok) {
-      let data = await response.json()
-      console.log('shareable link generated successfully', data)
-      return data
-    } else {
-      let errorResponse = await response.text()
-      console.error('shareable link failed to generate', response.status, response.statusText, errorResponse);
-    }
   }
 
   return (

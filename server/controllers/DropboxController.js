@@ -1,7 +1,7 @@
 const ObjectId = require('mongoose').Types.ObjectId
 const Tracks = require('../models/tracks')
 
-class TracksController {
+class DropboxController {
 
     async getAll (req, res) {
         try {
