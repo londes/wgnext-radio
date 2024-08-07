@@ -18,6 +18,7 @@ const mongoose = require('mongoose')
 mongoose.set('debug', true)
 
 const trackRoutes = require('./routes/trackRoutes')
+const dropboxRoutes = require('./routes/dropboxRoutes')
 
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, '../client/build')));
@@ -38,6 +39,7 @@ async function connecting() {
 }
 
 app.use('/tracks', trackRoutes)
+app.use('/dropbox', dropboxRoutes)
 
 app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, '../client/build', 'index.html'));

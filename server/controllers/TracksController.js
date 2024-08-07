@@ -13,14 +13,12 @@ class TracksController {
     }
 
     async add ({artist, title, src}, res) {
-        console.log(req)
         try {
-            let match = await Tracks.find({title})
+            let match = await Tracks.find({src})
             match.length > 0 
-                ? res.send({ok: true, data: `WARNING: matching track with title ${req.body.title} already exists in tracks db`})
+                ? res.send({ok: true, data: `WARNING: matching track with link ${src} already exists in tracks db`})
                 : (async function addTrack(){
                     try {
-                        let {title, artist, src} = req.body
                         await Tracks.create({title: title, artist: artist, src: src})
                         res.send({ok: true, data: `track ${title} by ${artist} successfully added`})
                     } catch(e) {

@@ -1,68 +1,67 @@
-const ObjectId = require('mongoose').Types.ObjectId
-const Tracks = require('../models/tracks')
+// const ObjectId = require('mongoose').Types.ObjectId
+// const Tracks = require('../models/tracks')
+
+const multer = require('multer')
+const bodyParser = require('body-parser')
+
+const upload = multer();
+// app.use(bodyParser.json());
+
 
 class DropboxController {
 
     async getAll (req, res) {
         try {
-            let tracks = await Tracks.find({})
-            res.send(tracks)
         } catch(e) {
             console.log(e)
         }
     }
 
-    async add ({artist, title, src}, res) {
-        console.log(req)
+    async add (req, res) {
+        console.log(req.file)
+        let { file } = req
         try {
-            let match = await Tracks.find({title})
-            match.length > 0 
-                ? res.send({ok: true, data: `WARNING: matching track with title ${req.body.title} already exists in tracks db`})
-                : (async function addTrack(){
-                    try {
-                        let {title, artist, src} = req.body
-                        await Tracks.create({title: title, artist: artist, src: src})
-                        res.send({ok: true, data: `track ${title} by ${artist} successfully added`})
-                    } catch(e) {
-                        console.log(e)
-                        res.send({ok: true, data: `ERROR: could not add track due to missing required field`})
-                    }
-                })()
+            let response = await fetch ('https://content.dropboxapi.com/2/files/upload', {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${process.env.REACT_APP_DROPBOX_TOKEN}`,
+                  'Dropbox-API-Arg': JSON.stringify({
+                    path: `/${file.originalname}`,
+                    mode: 'add',
+                    autorename: true,
+                    mute: false
+                  }),
+                  'Content-Type': 'application/octet-stream'
+                },
+                body: file.buffer
+              })
+          
+              if (response.ok) {
+                let data = await response.json()
+                console.log('file uploaded to dropbox successfully', data)
+                return data
+              } else {
+                let errorResponse = await response.text()
+                console.error('failed to upload file to dropbox', response.status, response.statusText, errorResponse);
+              }
         } catch (e) {
             console.log(e)
         }
     }
 
-    async update (req, res) {
+    async getLink (req, res) {
         try {
-            let { old_track, new_track } = req.body
-            let match = await Tracks.findOneAndUpdate({title: old_track.title}, {$set: new_track})
-            !!match
-                ? res.send({ok: true, data: `track ${new_track.title} successfully updated`})
-                : res.send({ok: true, data: `WARNING: track ${old_track.title} not found in tracks db`})
-        } catch (e) {
+        } catch(e) {
             console.log(e)
-            res.send({ok: false, data: `ERROR: incorrect request. please send update with { old_track }, { new_track } payload`})
         }
     }
 
     async remove (req, res) {
         try {
-            let match = await Tracks.find({title: req.body.title})
-            match.length > 0 
-                ? (async function removeTrack(){
-                    try {
-                        await Tracks.deleteOne({title: req.body.title})
-                        res.send({ok: true, data: `track ${req.body.title} successfully deleted`})
-                    } catch (e) {
-                        console.log(e)
-                    }
-                })()
-                : res.send({ok: true, data: `WARNING: matching track with title ${req.body.title} could not be found in tracks db`})
         } catch (e) {
             console.log(e)
         }
     }
 }
 
-module.exports = new TracksController()
+module.exports = new DropboxController()

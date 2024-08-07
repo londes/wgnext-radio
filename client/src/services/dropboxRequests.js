@@ -1,29 +1,27 @@
 import { URL } from '../config'
 
-export async function uploadToDropbox(song) {
-    let response = await fetch ('https://content.dropboxapi.com/2/files/upload', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.REACT_APP_DROPBOX_TOKEN}`,
-        'Dropbox-API-Arg': JSON.stringify({
-          path: `/${song.name}`,
-          mode: 'add',
-          autorename: true,
-          mute: false
-        }),
-        'Content-Type': 'application/octet-stream'
-      },
-      body: song
-    })
+export async function uploadToDropbox(song={}) {
+    let formData = new FormData()
+    formData.append('file', song)
+    console.log('uplod to derpbox')
+    try {
+        const response = await fetch(`${URL}/dropbox/add`, {
+          method: 'POST',
+          mode: 'cors',
+          body: formData
+        });
+    
+        if (!response.ok) {
+          throw new Error('failed to upload file');
+        }
 
-    if (response.ok) {
-      let data = await response.json()
-      console.log('file uploaded to dropbox successfully', data)
-      return data
-    } else {
-      let errorResponse = await response.text()
-      console.error('failed to upload file to dropbox', response.status, response.statusText, errorResponse);
-    }
+        const data = await response.json();
+        // do something with response
+        return data
+      } catch (error) {
+        console.error('error adding track to Dropbox', error);
+        throw error;
+      }
   }
 
 export async function getShareableData(song) {
@@ -54,3 +52,16 @@ export async function getShareableData(song) {
         console.error('shareable link failed to generate', response.status, response.statusText, errorResponse);
     }
 }
+
+// async function postToDropbox(url='', data={}) {
+//     console.log('post to derpbox')
+//     const res = await fetch(`${URL}/dropbox${url}`, {
+//         method:"POST",
+//         mode:"cors",
+//         body: JSON.stringify(data),
+//         headers: {
+//             "Content-Type": 'application/json'
+//         }
+//     })
+//     return res.json()
+// }

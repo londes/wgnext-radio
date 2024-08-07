@@ -1,14 +1,17 @@
 const express = require('express')
+const multer = require('multer')
 const { model } = require('mongoose')
-const router = express.Router()
 const controller = require('../controllers/DropboxController')
+
+const router = express.Router()
+const upload = multer()
 
 router.get('/', controller.getAll)
 
-router.post('/add', controller.add)
+router.post('/add', upload.single('file'), controller.add)
 
-// router.post('/delete', controller.remove)
+router.post('/getlink', controller.getLink)
 
-// router.post('/update', controller.update)
+router.post('/remove', controller.remove)
 
 module.exports = router
