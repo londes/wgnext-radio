@@ -19,12 +19,15 @@ export default function UploadPage() {
   let handleSubmit = async (e) => {
     e.preventDefault()
     if (uploadFile) {
+      console.log('in our upload file')
       let uploadData = await uploadToDropbox(uploadFile)
+      console.log(uploadData)
+      console.log('got our upload data')
       let shareRequest = await getShareableData(uploadData)
       console.log(shareRequest)
       let res = await addSong({...formValues, src: shareRequest.url})
       console.log(res)
-    }
+    } else{} // todo: set message to file needed
   }
 
   let handleFile = (e) => {
