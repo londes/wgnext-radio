@@ -23,7 +23,7 @@ function App() {
         <Navigator/>
         <Routes>
           <Route path="/" element={<PlayPage tracks={tracks}/>}></Route>
-          <Route path="/upload" element={<UploadPage/>}></Route>
+          <Route path="/upload" element={<UploadPage tracks={tracks} setTracks={setTracks}/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

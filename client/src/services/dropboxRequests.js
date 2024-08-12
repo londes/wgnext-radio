@@ -1,23 +1,18 @@
 import { URL } from '../config'
 
 export async function uploadToDropbox(song={}) {
+    // create formData to encode our File (song)
     let formData = new FormData()
     formData.append('file', song)
-    console.log('uplod to derpbox')
     try {
         const response = await fetch(`${URL}/dropbox/add`, {
           method: 'POST',
           mode: 'cors',
           body: formData
-        });
-        
-
-        console.log(response)
-        console.log('brigglio')
+        })
         if (!response.ok) {
           throw new Error('failed to upload file');
         }
-
         const data = await response.json();
         return data
       } catch (error) {
@@ -27,17 +22,17 @@ export async function uploadToDropbox(song={}) {
 }
 
 export async function getShareableData(song) {
-    console.log(song)
-    console.log(JSON.stringify({song}))
-    console.log('shareable derpbox')
     try {   
         const response = await fetch(`${URL}/dropbox/getlink`, {
             method: 'POST',
             mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({song})
         })
         if (!response.ok) {
-            throw new Error('failed to upload file');
+            throw new Error(`${response.statusText} (song probably already exists)`);
         }
         const data = response.json();
         return data
@@ -46,3 +41,4 @@ export async function getShareableData(song) {
         throw error
     }
 }
+

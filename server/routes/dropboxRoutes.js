@@ -6,7 +6,7 @@ const controller = require('../controllers/DropboxController')
 const router = express.Router()
 const upload = multer()
 
-router.get('/', controller.getAll)
+// router.get('/', controller.getAll)
 
 router.post('/add', upload.single('file'), controller.add)
 

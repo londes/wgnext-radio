@@ -3,9 +3,10 @@
 // 
 
 const express = require('express')
-const app = express()
 const path = require('path')
+// const bodyParser = require('body-parser')
 
+const app = express()
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(require('cors')())
@@ -29,7 +30,6 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 
 async function connecting() {
     try {
-        // await mongoose.connect('mongodb://127.0.0.1/radio')
         await mongoose.connect(`mongodb+srv://wilpur-radio:${process.env.MONGO_PW}@cluster0.dq7qyg1.mongodb.net/`)
         console.log(`connected to the tracks db yee`)
     } catch(e) {

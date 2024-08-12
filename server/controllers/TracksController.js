@@ -12,18 +12,20 @@ class TracksController {
         }
     }
 
-    async add ({artist, title, src}, res) {
+    async add (req, res) {
+        let { artist, title, src, filename } = req.body.data
+        console.log(artist, title, src)
         try {
             let match = await Tracks.find({src})
             match.length > 0 
                 ? res.send({ok: true, data: `WARNING: matching track with link ${src} already exists in tracks db`})
                 : (async function addTrack(){
                     try {
-                        await Tracks.create({title: title, artist: artist, src: src})
-                        res.send({ok: true, data: `track ${title} by ${artist} successfully added`})
+                        await Tracks.create({title: title, artist: artist, src: src, filename: filename})
+                        res.send({ok: true, data: `track ${title} by ${artist} successfully added to WGNext radio!`})
                     } catch(e) {
                         console.log(e)
-                        res.send({ok: true, data: `ERROR: could not add track due to missing required field`})
+                        res.send({ok: false, data: `ERROR: could not add track due to missing required field`})
                     }
                 })()
         } catch (e) {
@@ -31,6 +33,7 @@ class TracksController {
         }
     }
 
+    // note: not currently in use
     async update (req, res) {
         try {
             let { old_track, new_track } = req.body
@@ -44,6 +47,7 @@ class TracksController {
         }
     }
 
+    // note: not currently in use
     async remove (req, res) {
         try {
             let match = await Tracks.find({title: req.body.title})
