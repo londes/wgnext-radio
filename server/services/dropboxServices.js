@@ -1,5 +1,5 @@
-const fetch = require('node-fetch')
-const querystring = require('querystring')
+// const fetch = require('node-fetch')
+// const querystring = require('querystring')
 
 const REFRESH_TOKEN = process.env.DROPBOX_REFRESH_TOKEN
 const CLIENT_ID = process.env.DROPBOX_CLIENT_ID
@@ -18,7 +18,6 @@ async function refreshAccessToken() {
             client_secret: CLIENT_SECRET
         })
     });
-
 
     // set the new token value
     console.log(response)
@@ -56,12 +55,9 @@ async function uploadToDropbox(fileBuffer, fileName) {
         },
         body: fileBuffer
     });
-
-    console.log(response)
     if (!response.ok) {
         throw new Error('failed to upload file to Dropbox')
     }
-
     const data = await response.json()
     return data
 }

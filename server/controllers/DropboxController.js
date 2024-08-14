@@ -12,7 +12,6 @@ class DropboxController {
             if (!file) {
                 return res.status(400).send('no file uploaded in request')
             }
-            
             let uploadData = await dropboxService.uploadToDropbox(file.buffer, file.originalname)
             res.status(200).json(uploadData)
         } catch (error) {
@@ -23,7 +22,7 @@ class DropboxController {
 
     async getLink (req, res) {
         try {
-            const { path_lower } = req.body;
+            const { path_lower } = req.body.song;
             const shareData = await dropboxService.createShareableLink(path_lower);
             res.status(200).json(shareData);
         } catch (error) {

@@ -31,6 +31,7 @@ export async function getShareableData(song) {
             },
             body: JSON.stringify({song})
         })
+        console.log(response)
         if (!response.ok) {
             throw new Error(`${response.statusText} (song probably already exists)`);
         }
