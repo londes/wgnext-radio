@@ -19,13 +19,15 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Navigator/>
-        <Routes>
-          <Route path="/" element={<PlayPage tracks={tracks}/>}></Route>
-          <Route path="/upload" element={<UploadPage tracks={tracks} setTracks={setTracks}/>}></Route>
-        </Routes>
-      </BrowserRouter>
+      <div className="app-radio-container">
+        <BrowserRouter>
+          <Navigator/>
+          <Routes>
+            <Route path="/" element={<PlayPage tracks={tracks}/>}></Route>
+            <Route path="/upload" element={<UploadPage tracks={tracks} setTracks={setTracks}/>}></Route>
+          </Routes>
+        </BrowserRouter>
+      </div>
     </div>
   );
 }

@@ -12,15 +12,3 @@ export async function addSong(data = {}) {
     })
     return res.json()
 }
-
-// async function postToTodos(url='', data = {}) {
-//     const res = await fetch(`${URL}/todos${url}`, {
-//         method:"POST",
-//         mode:"cors",
-//         body: JSON.stringify(data),
-//         headers: {
-//             "Content-Type": 'application/json'
-//         }
-//     })
-//     return res.json()
-// }

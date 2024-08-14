@@ -34,7 +34,7 @@ export async function getShareableData(song) {
         })
         console.log(response)
         if (!response.ok) {
-            throw new Error(`${response.statusText} (song probably already exists)`);
+            throw new Error(`${response.statusText} cannot generate shareable link`);
         }
         const data = response.json();
         return data
