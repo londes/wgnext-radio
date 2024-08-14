@@ -5,6 +5,7 @@ export async function uploadToDropbox(song={}) {
     let formData = new FormData()
     formData.append('file', song)
     try {
+        console.log(URL)
         const response = await fetch(`${URL}/dropbox/add`, {
           method: 'POST',
           mode: 'cors',
