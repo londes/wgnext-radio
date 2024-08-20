@@ -96,8 +96,8 @@ html, body {
   margin-bottom: 1vh;
 }
 
-.field-container > input {
-  height: 3.5vh;
+.field-container-artist-track {
+  height: 20px;
   padding: 0 5px;
 }
 

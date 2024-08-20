@@ -97,11 +97,11 @@ export default function UploadPage({ tracks, setTracks }) {
         <form className="upload-form" onSubmit={handleSubmit}>
           <div className="field-container">
             <label htmlFor="artist">artist name:</label>
-            <input type="text" id="artist" name="artist" placeholder="artist" value={formValues.artist} onChange={handleChange}></input>
+            <input className="field-container-artist-track" type="text" id="artist" name="artist" placeholder="artist" value={formValues.artist} onChange={handleChange}></input>
           </div>
           <div className="field-container">
             <label htmlFor="title">track name:</label>
-            <input type="text" id="title" name="title" placeholder="track" value={formValues.title} onChange={handleChange}></input>
+            <input className="field-container-artist-track" type="text" id="title" name="title" placeholder="track" value={formValues.title} onChange={handleChange}></input>
           </div>
           <div className="field-container">
             <label htmlFor="songFile">upload track (mp3 only): </label>
